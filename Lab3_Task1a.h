@@ -62,4 +62,12 @@
 #define ADC0_ISC (*((volatile uint32_t *)0x4003800C))
 #define ADC0_SSTSH3 (*((volatile uint32_t *)0x400380BC))
 
+// I2C0 registers
+#define RCGCI2C (*((volatile uint32_t *)0x400FE620)) // I2C clock control
+#define I2C_MSA (*((volatile uint32_t *)0x40020000)) // Master slave address: select slave address and read/write bit
+#define I2C_MCS (*((volatile uint32_t *)0x40020004)) // Master control/status: indicates status of bus controller when read, controls I2C operations (start, stop, read) when written
+#define I2C_MDR (*((volatile uint32_t *)0x40020008)) // Master data: Stores data to be sent/received
+#define I2C_MCR (*((volatile uint32_t *)0x40020020)) // Master control: enables I2C in master mode
+#define I2C_MTPR (*((volatile uint32_t *)0x4002000C)) // Master timing
+
 #endif // _LAB3_TASK1A_H_
