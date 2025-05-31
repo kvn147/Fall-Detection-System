@@ -1,10 +1,10 @@
 /*
  * Copyright @ 2025 Kevin Nguyen and Patrick Rungruengwatanachai.
- * Header file for Lab 3 Task 1a. Defines GPIO registers
- * such as onboard LEDs, ADC, and Timer.
+ * Header file for Lab 5. Defines registers including
+ * timer, I2R, Accelerometer.
  */
-#ifndef _LAB3_TASK1A_H_
-#define _LAB3_TASK1A_H_
+#ifndef _LAB5_H_
+#define _LAB5_H_
 
 #include <stdint.h>
 
@@ -70,4 +70,4 @@
 #define I2C_MCR (*((volatile uint32_t *)0x40020020)) // Master control: enables I2C in master mode
 #define I2C_MTPR (*((volatile uint32_t *)0x4002000C)) // Master timing
 
-#endif // _LAB3_TASK1A_H_
+#endif // _LAB5_H_

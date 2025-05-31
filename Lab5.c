@@ -1,8 +1,6 @@
 /**
- * Copyright @2025 Kevin Nguyen and Patrick Rungruengwatanachai.
- * EE/CSE 474: Lab 3 Task 1a main file. Samples the ADC value
- * from the potentiometer and uses if-else conditions to turn on
- * corresponding LEDs.
+ * Copyright (c) 2025 Kevin Nguyen and Patrick Rungruengwatanachai.
+ * EE/CSE 474: Lab 5 main program
  */
 
 // NOTE: This is the main function for Task 1a. You should start by
@@ -11,11 +9,11 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#include "Lab3_Inits.h"
+#include "Lab5_Inits.h"
 
 // STEP 0b: Include your header file here
 // YOUR CUSTOM HEADER FILE HERE
-#include "Lab3_Task1a.h"
+#include "Lab5.h"
 
 uint32_t ADC_value;
 

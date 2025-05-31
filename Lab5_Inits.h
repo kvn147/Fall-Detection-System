@@ -1,14 +1,10 @@
 /**
- * Copyright @2025 Kevin Nguyen and Patrick Rungruengwatanachai.
- * EE/CSE 474: Lab3 drivers header file
+ * Copyright (c) 2025 Kevin Nguyen and Patrick Rungruengwatanachai.
+ * EE/CSE 474: Lab 5 drivers header file
  */
 
-// NOTE: All necessary functions for Task 1a have been declared in
-// this header file, and thus you should not modify it for task 1a.
-// However, you may modify it if you want to reuse it for other tasks.
-
-#ifndef _LAB3_INITS_H_
-#define _LAB3_INITS_H_
+#ifndef _LAB5_INITS_H_
+#define _LAB5_INITS_H_
 
 // Preset frequency for 120 MHZ, 60 MHZ, and 12 MHZ clock
 // Pass in the preset to Timer1_Init and PLL_Init to configure
@@ -31,4 +27,4 @@ void ADCReadPot_Init(void);
 // Initializes Timer 0A to trigger ADC0 at 1 HZ.
 void TimerADCTriger_Init(void);
 
-#endif  // _LAB3_INITS_H_
+#endif  // _LAB5_INITS_H_

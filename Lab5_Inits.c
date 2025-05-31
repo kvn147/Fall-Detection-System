@@ -1,14 +1,14 @@
 /**
- * Copyright @2025 Kevin Nguyen and Patrick Rungruengwatanachai.
- * EE/CSE 474: Lab3 drivers starter code
+ * Copyright (c) 2025 Kevin Nguyen and Patrick Rungruengwatanachai.
+ * EE/CSE 474: Lab 5 drivers starter code
  */
 
  #include "PLL_Header.h"
- #include "Lab3_Inits.h"
+ #include "Lab5_Inits.h"
  
  // STEP 0a: Include your header file here
  // YOUR CUSTOM HEADER FILE HERE
- #include "Lab3_Task1a.h"
+ #include "Lab5.h"
  
  int PLL_Init(enum frequency freq) {
      // Do NOT modify this function.
@@ -130,4 +130,9 @@
    GPTMCTL |= 0x1; // Enable timer A
    GPTMADCEV |= 0x1; 
  }
+
+ void I2C0_Init(void) {
+
+ }
+ 
  
