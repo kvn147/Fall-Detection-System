@@ -17,6 +17,12 @@
 
 uint32_t ADC_value;
 
+void enableI2C() {
+    // enable I2C clock for I2C module 0
+    RCGCI2C |= 0x1;
+    RCGCGPIO |= 
+}
+
 int main(void) {
   // Select system clock frequency preset
   enum frequency freq = PRESET2; // 60 MHz
