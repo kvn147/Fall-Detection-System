@@ -1,5 +1,5 @@
 /*
- * Copyright @ 2025 Kevin Nguyen and Patrick Rungruengwatanachai.
+ * Copyright (c) 2025 Kevin Nguyen and Patrick Rungruengwatanachai.
  * Header file for Lab 5. Defines registers including
  * timer, I2R, Accelerometer.
  */
@@ -69,5 +69,15 @@
 #define I2C_MDR (*((volatile uint32_t *)0x40020008)) // Master data: Stores data to be sent/received
 #define I2C_MCR (*((volatile uint32_t *)0x40020020)) // Master control: enables I2C in master mode
 #define I2C_MTPR (*((volatile uint32_t *)0x4002000C)) // Master timing
+
+// Port B registers (for accelerometer gyroscope - I2C0SCL and I2C0SDA)
+#define GPIODIR_B (*((volatile uint32_t *)0x40059400)) // Direction register
+#define GPIODEN_B (*((volatile uint32_t *)0x4005951C)) // Digital enable
+#define GPIOAFSEL_B (*((volatile uint32_t *)0x40059420)) // Alternate function select
+#define GPIOAMSEL_B (*((volatile uint32_t *)0x40059428)) // Analog mode select
+#define GPIOPCTL_B (*((volatile uint32_t *)0x4005952C)) // Port control
+#define GPIOODR_B (*((volatile uint32_t *)0x4005950C)) // Open drain select
+
+// MPU-6050
 
 #endif // _LAB5_H_

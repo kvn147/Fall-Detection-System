@@ -27,4 +27,7 @@ void ADCReadPot_Init(void);
 // Initializes Timer 0A to trigger ADC0 at 1 HZ.
 void TimerADCTriger_Init(void);
 
+// Initialize I2C0
+void I2C0_Init(void);
+
 #endif  // _LAB5_INITS_H_

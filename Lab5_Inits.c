@@ -111,28 +111,44 @@
    ADC0_ACTSS |= 0x8; // Enable SS3
  }
  
- void TimerADCTriger_Init(void) {
-   // STEP 3: Initialize Timer0A to trigger ADC0 at 1 HZ.
-   // Hint: Refer to section 13.3.7 of the datasheet
- 
-   // YOUR CODE HERE
-   RCGCTIMER |= 0x1; // enable clock for Timer 0 (GPTM0)
-   while ((RCGCTIMER & 0x1) == 0) {}
-     
-   GPTMCTL = 0x0; // Disable timer A for initialization 
-   GPTMCTL |= 0x20;
-   GPTMCFG = 0x0; // 32-bit timer configuration
-   GPTMTAMR |= 0x12; // set to periodic mode and count down
-   GPTMAILR = 16000000; // Load for 1 Hz
-   GPTMICR |= 0x1; // Clear any timeout flag
-   GPTMIMR |= 0x1; // GPTM interupt mask
-   GPTMCC |= 0x1; // Hooks up to PLL
-   GPTMCTL |= 0x1; // Enable timer A
-   GPTMADCEV |= 0x1; 
- }
+void TimerADCTriger_Init(void) {
+  // STEP 3: Initialize Timer0A to trigger ADC0 at 1 HZ.
+  // Hint: Refer to section 13.3.7 of the datasheet
 
- void I2C0_Init(void) {
+  // YOUR CODE HERE
+  RCGCTIMER |= 0x1; // enable clock for Timer 0 (GPTM0)
+  while ((RCGCTIMER & 0x1) == 0) {}
+    
+  GPTMCTL = 0x0; // Disable timer A for initialization 
+  GPTMCTL |= 0x20;
+  GPTMCFG = 0x0; // 32-bit timer configuration
+  GPTMTAMR |= 0x12; // set to periodic mode and count down
+  GPTMAILR = 16000000; // Load for 1 Hz
+  GPTMICR |= 0x1; // Clear any timeout flag
+  GPTMIMR |= 0x1; // GPTM interupt mask
+  GPTMCC |= 0x1; // Hooks up to PLL
+  GPTMCTL |= 0x1; // Enable timer A
+  GPTMADCEV |= 0x1; 
+}
 
- }
+void I2C0_Init(void) {
+  RCGCI2C |= (1 << 0); // Enable clock for I2C0
+  volatile unsigned short delay = 0;
+  delay++, delay++; 
+  RCGCGPIO |= (1 << 1); // Enable clock for Port B
+  delay++, delay++; 
+
+  // Configure PB2 and PB3 for I2C0
+  GPIOAFSEL_B |= (1 << 2) | (1 << 3); // Set PB2 and PB3 as alternate function
+  GPIODEN_B |= (1 << 2) | (1 << 3); // Enable digital function for PB2 and PB3
+  GPIOAMSEL_B &= ~((1 << 2) | (1 << 3)); // Disable analog function for PB2 and PB3
+  GPIOODR_B |= (1 << 3); // Set PB3 as open-drain
+  
+  GPIOPCTL_B &= ~((0xFF << 8) | (0xFF << 12)); // Clear bits
+  GPIOPCTL_B |= (0x3 << 8) | (0x3 << 12); // Set PB2 and PB3 to I2C mode
+
+  I2C_MCR = (1 << 4); // Enable I2C0 master mode
+  I2C_MTPR = 29; // Set timing for 100 kHz I2C clock (for 60 MHz system clock)
+}
  
  
