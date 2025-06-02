@@ -9,6 +9,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <inttypes.h>
 #include "Lab5_Inits.h"
 
 // STEP 0b: Include your header file here
@@ -17,41 +18,19 @@
 
 uint32_t ADC_value;
 
-void enableI2C() {
-    // enable I2C clock for I2C module 0
-    RCGCI2C |= 0x1;
-    RCGCGPIO |= 
-}
-
 int main(void) {
   // Select system clock frequency preset
-  enum frequency freq = PRESET2; // 60 MHz
+  enum frequency freq = PRESET1; // 120 MHz
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   LED_Init();            // Initialize the 4 onboard LEDs (GPIO)
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
   TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
+  I2C0_Init();
+
   float resistance;
   while(1) {
-
-    GPTMICR = 0x1; // Clear any timeout flag
-    // STEP 5: Change the pattern of LEDs based on the resistance.
-    // 5.1: Convert ADC_value to resistance in kilo-ohm
-    resistance = ADC_value / 4095.0 * 10.0; // Convert ADC value to voltage
-    // clear LEDs
-    GPIODATA_N &= ~0x03; // Turn off LED1 and LED2
-    GPIODATA_F &= ~0x11; // Turn off LED3 and LED4
-    // 5.2: Change the pattern of LEDs based on the resistance
-    if (resistance < 2.5) {
-      GPIODATA_N |= 0x02; // LED1 on (PN1)
-    } else if (resistance < 5.0) {
-      GPIODATA_N |= 0x03; // LED2 and LED1 on (PN0 and PN1)
-    } else if (resistance < 7.5) {
-      GPIODATA_F |= 0x10; // LED3 on (PF4)
-      GPIODATA_N |= 0x03; // LED2 and LED1 on (PN0 and PN1)
-    } else {
-      GPIODATA_F |= 0x11; // LED4 and LED3 on (PF0 and PF4)
-      GPIODATA_N |= 0x03; // LED2 and LED1 on (PN0 and PN1)
-    }
+      uint32_t curr_val = I2C_MDR;
+      printf("%" PRIu32 "\n", curr_val);
   }
   return 0;
 }

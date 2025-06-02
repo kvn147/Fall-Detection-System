@@ -148,7 +148,10 @@ void I2C0_Init(void) {
   GPIOPCTL_B |= (0x3 << 8) | (0x3 << 12); // Set PB2 and PB3 to I2C mode
 
   I2C_MCR = (1 << 4); // Enable I2C0 master mode
-  I2C_MTPR = 29; // Set timing for 100 kHz I2C clock (for 60 MHz system clock)
+  I2C_MTPR = 0x3B; // Set timing for 100 kHz I2C clock (for 60 MHz system clock)
+  if (I2C_MCS & 0x2) {
+    while(1) {}
+  }
 }
  
  
