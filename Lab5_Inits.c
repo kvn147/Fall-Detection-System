@@ -162,9 +162,9 @@ void I2C0_Init(void) {
 void PWM_Init(void) {
   volatile unsigned short delay = 0;
   RCGCPWM |= 0x1; // Enable PWM 0
-  RCGCGPIO |= 0x20; // Enable port F
+  RCGCGPIO |= (1 << 6); // Enable port F
   delay++, delay++; 
-  GPIOAFSEL |= (1 << 0) | (1 << 1);  // Alt function for port F 0 and 1
+  GPIOAFSEL_F |= (1 << 0) | (1 << 1);  // Alt function for port F 0 and 1
   GPIOPCTL_F |= (1 << 0) | (1 << 1);  // Alt function for port F 0 and 1
   PWMCC = 0x0;
   PWM0CTL = 0x00000000;

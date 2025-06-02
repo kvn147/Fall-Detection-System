@@ -21,13 +21,13 @@ int main(void) {
   // Select system clock frequency preset
   enum frequency freq = PRESET4; // 60 MHz
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
-  LED_Init();            // Initialize the 4 onboard LEDs (GPIO)
-  ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
-  TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
+  // LED_Init();            // Initialize the 4 onboard LEDs (GPIO)
+  // ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
+  // TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
   PWM_Init();            // Initialize PWM
 
   float resistance;
-  while(1) {
+     while(1) {
   }
   return 0;
 }
