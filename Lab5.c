@@ -19,7 +19,7 @@ uint32_t ADC_value;
 
 int main(void) {
   // Select system clock frequency preset
-  enum frequency freq = PRESET2; // 60 MHz
+  enum frequency freq = PRESET4; // 60 MHz
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   LED_Init();            // Initialize the 4 onboard LEDs (GPIO)
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
