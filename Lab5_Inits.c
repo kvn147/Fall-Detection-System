@@ -148,7 +148,31 @@ void I2C0_Init(void) {
   GPIOPCTL_B |= (0x3 << 8) | (0x3 << 12); // Set PB2 and PB3 to I2C mode
 
   I2C_MCR = (1 << 4); // Enable I2C0 master mode
-  I2C_MTPR = 29; // Set timing for 100 kHz I2C clock (for 60 MHz system clock)
+  I2C_MTPR = 0x3B; // Set timing for 100 kHz I2C clock (for 60 MHz system clock)
+  if (I2C_MCS & 0x2) { // ensure that no errors occur and if they do loop forever
+    while(1) {}
+  }
+  I2C_MCS = 0x00000007;
+  while (!(I2C_MCS & 0x8)) { } // Wait for busy bit
+  if (I2C_MCS & 0x2) { // loop forever means that there was error
+        while(1) {}
+  }
+}
+
+void PWM_Init(void) {
+  RCGCPWM |= 0x1; // Enable PWM 0
+  RCGCGPIO |= 0x20; // Enable port F
+  GPIOAFSEL |= (1 << 0) | (1 << 1);  // Alt function for port F 0 and 1
+  GPIOPCTL_F |= (1 << 0) | (1 << 1);  // Alt function for port F 0 and 1
+  PWMCC = 0x0;
+  PWM0CTL = 0x00000000;
+  PWM0GENA = 0x0000008C;
+  PWM0GENB = 0x0000080C;
+  PWM0LOAD = 0x0000018F;
+  PWM0CMPA = 0x0000012B;
+  PWM0CMPB = 0x00000063;
+  PWM0CTL = 0x00000001;
+  PWMENABLE = 0x00000003;
 }
  
  

@@ -80,4 +80,30 @@
 
 // MPU-6050
 
+
+// PWM registers
+#define RCGCPWM (*((volatile uint32_t *)0x400FE640))
+#define GPIOAFSEL_F (*((volatile uint32_t *)0x4005D420))
+#define GPIOPCTL_F (*((volatile uint32_t *)0x4005D52C))
+#define PWMCC (*((volatile uint32_t *)0x40028FC8))
+#define PWM0CTL (*((volatile uint32_t *)0x40028040))
+#define PWM1CTL (*((volatile uint32_t *)0x40028080))
+#define PWM0GENA (*((volatile uint32_t *)0x40028060))
+#define PWM1GENA (*((volatile uint32_t *)0x400280A0))
+#define PWM0GENB (*((volatile uint32_t *)0x40028064))
+#define PWM1GENB (*((volatile uint32_t *)0x400280A4))
+#define PWM0LOAD (*((volatile uint32_t *)0x40028050))
+#define PWM1LOAD (*((volatile uint32_t *)0x40028090))
+#define PWM0CMPA (*((volatile uint32_t *)0x40028058))
+#define PWM1CMPA (*((volatile uint32_t *)0x40028098))
+
+#define PWM0CMPB (*((volatile uint32_t *)0x4002805C))
+#define PWM1CMPB (*((volatile uint32_t *)0x4002809C))
+
+#define PWM0CTL (*((volatile uint32_t *)0x40028040))
+#define PWM1CTL (*((volatile uint32_t *)0x40028080))
+
+#define PWMENABLE (*((volatile uint32_t *)0x40028008))
+
+
 #endif // _LAB5_H_
