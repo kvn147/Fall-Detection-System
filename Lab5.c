@@ -28,7 +28,10 @@ int main(void) {
 
   float resistance;
      while(1) {
-  }
+      if (PWMCC & 1) {
+        while(1) {}
+      }
+    }
   return 0;
 }
 

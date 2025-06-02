@@ -162,24 +162,31 @@ void I2C0_Init(void) {
 void PWM_Init(void) {
   volatile unsigned short delay = 0;
   RCGCPWM |= 0x1; // Enable PWM 0
-  RCGCGPIO |= (1 << 6); // Enable port F
-  delay++, delay++; 
+  RCGCGPIO |= (1 << 5); // Enable port F
+  delay++;
+  delay++; 
   GPIOAFSEL_F |= (1 << 0) | (1 << 1);  // Alt function for port F 0 and 1
-  GPIOPCTL_F |= (1 << 0) | (1 << 1);  // Alt function for port F 0 and 1
-  PWMCC = 0x0;
-  PWM0CTL = 0x00000000;
-  PWM0GENA = 0x0000008C;
-  PWM0GENB = 0x0000080C;
-  PWM0LOAD = 0x0000018F;
-  PWM0CMPA = 0x0000012B;
-  PWM0CMPB = 0x00000063;
+  GPIOPCTL_F = 0x00000000;
+  GPIOPCTL_F = 0x6;  // Assign PWM functionality
+  GPIOPCTL_F |= (0x6 << 4);
+  GPIODEN_F |= 0x3;
+  // to pins
+  PWMCC = 0x0 | (1 << 8); // Divide and use timer by 2
+  PWMCTL = 0x1;
+  PWM0CTL = 0x00000000; // unlatch fault PWM
+  PWM0GENA = 0x0000008C;  
+  PWM0GENB = 0x0000080C;  
+  PWM0LOAD = 0x0000018F;  
+  PWM0CMPA = 0x0000012B;  // set duty cycle for pin 1
+  PWM0CMPB = 0x00000063;  // set duty cycle for pin 2
   PWM0CTL = 0x00000001;
-  PWMENABLE = 0x00000003;
+  PWMENABLE = 0x00000003; // latch fault PWM
 }
 
 void PWM_Change_Duty(int cycle) {
   PWM0CTL = 0x00000000;
-
+  PWM0CMPA = 0x0000012B;  // set duty cycle for pin 1
+  PWM0CMPB = 0x00000063;  // set duty cycle for pin 2
   PWM0CTL = 0x00000003;
 }
  
