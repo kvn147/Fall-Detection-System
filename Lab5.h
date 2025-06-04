@@ -77,7 +77,7 @@
 #define PWMENABLE (*((volatile uint32_t *)0x40028008))
 #define PWMCTL (*((volatile uint32_t *)0x40028000))
 
-#define PWMCC (*((volatile uint32_t *)0x40028020))
+//#define PWMCC (*((volatile uint32_t *)0x40028020))
 
 
 // All UART stuff below
