@@ -156,7 +156,10 @@ void PWM_Init(void) {
 }
 
 void PWM_Change_Duty(int cycle) {
-  PWM0CTL = 0x00000000;
+  if (cycle ==0) {
+    PWM0CTL = 0x00000000;
+    return;
+  }
   /*
   PWM0CMPA = 0x0000012B;  // set duty cycle for pin 1
   PWM0CMPB = 0x00000063;  // set duty cycle for pin 2

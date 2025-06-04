@@ -40,8 +40,16 @@ int main(void) {
     while (!(UARTFR_A & UART_FR_RXFE)) {
       char c = (char)(UARTDR_A & 0xFF); // Read the character from UART2
       uint32_t duty = (UARTDR_A * PWM0LOAD) / 4095; // might need to tweak
-      printf("%c\n", c); 
-      PWM_Change_Duty(duty); // Change PWM duty cycle based on ADC value
+      if (c == '0') {
+        PWM_Change_Duty(1);
+      }
+      else if (c == '1') {
+        PWM_Change_Duty(233);
+      }
+      else if (c == '2') {
+        GPIODATA_F = 0x0;
+      }
+      printf("%c\n", c);
       volatile unsigned short delay = 0;
       delay++, delay++;
       while (UARTFR_A & UART_FR_TXFF) {}
@@ -56,4 +64,10 @@ void ADC0SS3_Handler(void) {
   ADC0_ISC |= 0x1;
   // 4.2: Save the ADC value to global variable ADC_value
   ADC_value = ADC0_SSFIFO3;
+  int duty = (ADC_value * PWM0LOAD) / 4095;
+  // PWM_Change_Duty(duty);
+  // printf("%i\n", duty);   
+  // 399 HI
+  // 233 MED
+  // 0 LOW 
 }
