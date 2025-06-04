@@ -33,5 +33,8 @@ void I2C0_Init(void);
 // Initialize I2C0
 void PWM_Init(void);
 
+// Initialize UART2
+void UART2_Init(void);
+
 
 #endif  // _LAB5_INITS_H_

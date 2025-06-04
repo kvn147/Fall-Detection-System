@@ -131,34 +131,6 @@ void TimerADCTriger_Init(void) {
   GPTMADCEV |= 0x1; 
 }
 
-void I2C0_Init(void) {
-  RCGCI2C |= (1 << 0); // Enable clock for I2C0
-  volatile unsigned short delay = 0;
-  delay++, delay++; 
-  RCGCGPIO |= (1 << 1); // Enable clock for Port B
-  delay++, delay++; 
-
-  // Configure PB2 and PB3 for I2C0
-  GPIOAFSEL_B |= (1 << 2) | (1 << 3); // Set PB2 and PB3 as alternate function
-  GPIODEN_B |= (1 << 2) | (1 << 3); // Enable digital function for PB2 and PB3
-  GPIOAMSEL_B &= ~((1 << 2) | (1 << 3)); // Disable analog function for PB2 and PB3
-  GPIOODR_B |= (1 << 3); // Set PB3 as open-drain
-  
-  GPIOPCTL_B &= ~((0xFF << 8) | (0xFF << 12)); // Clear bits
-  GPIOPCTL_B |= (0x3 << 8) | (0x3 << 12); // Set PB2 and PB3 to I2C mode
-
-  I2C_MCR = (1 << 4); // Enable I2C0 master mode
-  I2C_MTPR = 0x3B; // Set timing for 100 kHz I2C clock (for 60 MHz system clock)
-  if (I2C_MCS & 0x2) { // ensure that no errors occur and if they do loop forever
-    while(1) {}
-  }
-  I2C_MCS = 0x00000007;
-  while (!(I2C_MCS & 0x8)) { } // Wait for busy bit
-  if (I2C_MCS & 0x2) { // loop forever means that there was error
-        while(1) {}
-  }
-}
-
 void PWM_Init(void) {
   volatile unsigned short delay = 0;
   RCGCPWM |= 0x1; // Enable PWM 0
@@ -188,6 +160,26 @@ void PWM_Change_Duty(int cycle) {
   PWM0CMPA = 0x0000012B;  // set duty cycle for pin 1
   PWM0CMPB = 0x00000063;  // set duty cycle for pin 2
   PWM0CTL = 0x00000003;
+}
+
+void UART2_Init(void) {
+    RCGCGPIO |= (1<<0); // Enable clock for Port A
+    while (!(PRGPIO_R & (1<<0))) {} // Wait for clock to stabilize
+
+    RCGCUART_R |= (1<<2); // Enable clock for UART2
+    while (!(PRUART_R & (1<<2))) {} // Wait for clock to stabilize
+
+    GPIO_PORTA_AMSEL_R &= ~((1<<6)|(1<<7)); // Disable analog function on PA6 and PA7
+    GPIO_PORTA_AFSEL_R |= (1<<6)|(1<<7); // Set PA6 and PA7 to alt function
+    GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R & 0x00FFFFFF) | (0x1 << 24) | (0x1 << 28); // Set PA6 and PA7 to UART mode
+    GPIO_PORTA_DEN_R |= (1<<6)|(1<<7); // Enable digital function on PA6 and PA7
+
+    UART2_CTL_R &= ~UART_CTL_UARTEN; // Disable UART2 to configure
+    UART2_IBRD_R = 104; // Set integer baud rate divisor 9600 baud rate
+    UART2_FBRD_R = 11; // Set fractional baud rate divisor
+    UART2_LCRH_R = 0x70; // Set line control register (8 data bits, no parity, 1 stop bit)
+    UART2_CC_R = 0x5; // Use system clock
+    UART2_CTL_R |= (UART_CTL_UARTEN | UART_CTL_TXE | UART_CTL_RXE); // Enable UART2, TXE, RXE
 }
  
  
