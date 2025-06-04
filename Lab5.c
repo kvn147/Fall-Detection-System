@@ -35,7 +35,8 @@ int main(void) {
     }
   */
   while (1) {
-    PWM_Change_Duty(ADC_value / 100); // Change PWM duty cycle based on ADC value
+    uint32_t duty = (ADC_value * PWM0LOAD) / 4095; // might need to tweak
+    PWM_Change_Duty(duty); // Change PWM duty cycle based on ADC value
     volatile unsigned short delay = 0;
     delay++, delay++;
   }
