@@ -35,14 +35,16 @@ int main(void) {
       }
     }
   */
+
   while (1) {
     while (!(UARTFR_A & UART_FR_RXFE)) {
       char c = (char)(UARTDR_A & 0xFF); // Read the character from UART2
       uint32_t duty = (UARTDR_A * PWM0LOAD) / 4095; // might need to tweak
-      printf("%i", UARTDR_A);
+      printf("%c\n", c); 
       PWM_Change_Duty(duty); // Change PWM duty cycle based on ADC value
       volatile unsigned short delay = 0;
       delay++, delay++;
+      while (UARTFR_A & UART_FR_TXFF) {}
     }
   }
   return 0;
