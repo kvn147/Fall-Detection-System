@@ -108,4 +108,21 @@
 #define UART_CTL_RXE     0x00000004 // Receive Enable
 #define UART_LCRH_WLEN_8 0x00000060 // 8-bit word length
 
+
+// UART GPIO A ports
+#define GPIOAFSEL_A (*((volatile uint32_t *)0x40058420))
+#define GPIOPCTL_A  (*((volatile uint32_t *)0x4005852C))
+#define GPIODEN_A   (*((volatile uint32_t *)0x4005851C))
+#define RCGCUART_A  (*((volatile uint32_t *)0x400FE618))  // RCGCUART
+#define GPIODR2R_A  (*((volatile uint32_t *)0x40058500))  // Drive Select
+#define UARTIBRD_A  (*((volatile uint32_t *)0x4000C024))  // Drive Select
+#define UARTFBRD_A  (*((volatile uint32_t *)0x4000C028))  // Drive Select
+#define UARTLCRH_A  (*((volatile uint32_t *)0x4000C02C))
+#define UARTCC_A    (*((volatile uint32_t *)0x4000CFC8))  // UART clock config
+#define UARTDR_A    (*((volatile uint32_t *)0x4000C000))  // UART data
+#define UARTFR_A    (*((volatile uint32_t *)0x4000C018))  // UART data transmit flags
+
+// UART Register setup for UART0
+#define UART0_CTL (*((volatile uint32_t *)0x4000C030))  // UARTCTL reg
+
 #endif // _LAB5_H_

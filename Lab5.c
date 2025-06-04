@@ -19,12 +19,13 @@ uint32_t ADC_value;
 
 int main(void) {
   // Select system clock frequency preset
-  enum frequency freq = PRESET4; // 60 MHz
+  enum frequency freq = PRESET3; // 60 MHz
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   LED_Init();            // Initialize the 4 onboard LEDs (GPIO)
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
   TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
   PWM_Init();            // Initialize PWM
+  UART_Init();
 
   /*
   float resistance;
@@ -35,10 +36,14 @@ int main(void) {
     }
   */
   while (1) {
-    uint32_t duty = (ADC_value * PWM0LOAD) / 4095; // might need to tweak
-    PWM_Change_Duty(duty); // Change PWM duty cycle based on ADC value
-    volatile unsigned short delay = 0;
-    delay++, delay++;
+    while (!(UARTFR_A & UART_FR_RXFE)) {
+      char c = (char)(UARTDR_A & 0xFF); // Read the character from UART2
+      uint32_t duty = (UARTDR_A * PWM0LOAD) / 4095; // might need to tweak
+      printf("%i", UARTDR_A);
+      PWM_Change_Duty(duty); // Change PWM duty cycle based on ADC value
+      volatile unsigned short delay = 0;
+      delay++, delay++;
+    }
   }
   return 0;
 }

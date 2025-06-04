@@ -9,7 +9,7 @@
 // Preset frequency for 120 MHZ, 60 MHZ, and 12 MHZ clock
 // Pass in the preset to Timer1_Init and PLL_Init to configure
 // the system clock to specified frequency
-enum frequency {PRESET1 = 120, PRESET2 = 60, PRESET3 = 12, PRESET4 = 20};
+enum frequency {PRESET1 = 120, PRESET2 = 60, PRESET3 = 12};
 
 // Initializes the PLL module and generates a system clock frequency
 // that equal to the frequency preset.

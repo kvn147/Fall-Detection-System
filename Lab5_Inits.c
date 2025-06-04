@@ -168,8 +168,10 @@ void PWM_Change_Duty(int cycle) {
     cycle = 0; // Ensure cycle is not negative
   }
   PWM0CMPA = cycle;  // Update duty cycle for pin 1
+  PWM0CMPB = cycle;  // Update duty cycle for pin 1
   PWM0CTL = 0x00000001; // Enable PWM0
 }
+
 
 void UART2_Init(void) {
     RCGCGPIO |= (1<<0); // Enable clock for Port A
@@ -178,10 +180,10 @@ void UART2_Init(void) {
     RCGCUART_R |= (1<<2); // Enable clock for UART2
     while (!(PRUART_R & (1<<2))) {} // Wait for clock to stabilize
 
-    GPIO_PORTA_AMSEL_R &= ~((1<<6)|(1<<7)); // Disable analog function on PA6 and PA7
-    GPIO_PORTA_AFSEL_R |= (1<<6)|(1<<7); // Set PA6 and PA7 to alt function
-    GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R & 0x00FFFFFF) | (0x1 << 24) | (0x1 << 28); // Set PA6 and PA7 to UART mode
-    GPIO_PORTA_DEN_R |= (1<<6)|(1<<7); // Enable digital function on PA6 and PA7
+    GPIO_PORTA_AMSEL_R &= ~((1<<0)|(1<<1)); // Disable analog function on PA6 and PA7
+    GPIO_PORTA_AFSEL_R |= (1<<0)|(1<<1); // Set PA6 and PA7 to alt function
+    GPIO_PORTA_PCTL_R |= (1 << 0) | (1 << 4); // Set PA6 and PA7 to UART mode
+    GPIO_PORTA_DEN_R |= (1<<0)|(1<<1); // Enable digital function on PA6 and PA7
 
     UART2_CTL_R &= ~UART_CTL_UARTEN; // Disable UART2 to configure
     UART2_IBRD_R = 104; // Set integer baud rate divisor 9600 baud rate
@@ -189,6 +191,27 @@ void UART2_Init(void) {
     UART2_LCRH_R = 0x70; // Set line control register (8 data bits, no parity, 1 stop bit)
     UART2_CC_R = 0x5; // Use system clock
     UART2_CTL_R |= (UART_CTL_UARTEN | UART_CTL_TXE | UART_CTL_RXE); // Enable UART2, TXE, RXE
+}
+
+void UART_Init(void) {
+  RCGCUART_A |= (1 << 0);  // Enable UART module 0
+  RCGCGPIO |= (1 << 0);    // Enable clock for A ports
+  GPIOAFSEL_A |= (1 << 0) | (1 << 1); // Alternate port for pins 0 and 1
+  GPIOPCTL_A |= (1 << 0) | (1 << 4); // Set pins 0 and 1 to UART mode
+  GPIODEN_A |= (1 << 0) | (1 << 1);   // Enable digital for pins 0 and 1
+  UART0_CTL |= (UART_CTL_UARTEN | UART_CTL_TXE | UART_CTL_RXE);       // Enable bit 8 for TXE for enabling transmitting
+  // and bit 9 for recieving
+
+  UART0_CTL &= ~0x1;        // Disable UART
+  UARTIBRD_A = 104;          // remainder
+  UARTFBRD_A = 11;         // fractional portion
+  UARTLCRH_A = 0x70;        // Word length of 8 bits
+  UARTCC_A = 0x5;          // Use system clock
+  UART0_CTL |= 0x1;         // Enable port UART
+  volatile unsigned short delay = 0;
+  delay++;
+  delay++;
+  delay++;  // 3 clock cycles of delay before accessing UART data
 }
  
  
