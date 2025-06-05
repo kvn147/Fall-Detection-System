@@ -6,16 +6,6 @@
 #ifndef _LAB5_INITS_H_
 #define _LAB5_INITS_H_
 
-// Preset frequency for 120 MHZ, 60 MHZ, and 12 MHZ clock
-// Pass in the preset to Timer1_Init and PLL_Init to configure
-// the system clock to specified frequency
-enum frequency {PRESET1 = 120, PRESET2 = 60, PRESET3 = 12};
-
-// Initializes the PLL module and generates a system clock frequency
-// that equal to the frequency preset.
-// Returns 1 if configured successfully, -1 if you select a non-exist preset.
-int PLL_Init(enum frequency freq);
-
 // Initializes the 4 onboard LEDs.
 void LED_Init(void);
 
@@ -27,14 +17,10 @@ void ADCReadPot_Init(void);
 // Initializes Timer 0A to trigger ADC0 at 1 HZ.
 void TimerADCTriger_Init(void);
 
-// Initialize I2C0
-void I2C0_Init(void);
-
-// Initialize I2C0
+// Initialize PWM
 void PWM_Init(void);
 
-// Initialize UART2
-void UART2_Init(void);
-
+// Initialize UART0
+void UART_Init(void);
 
 #endif  // _LAB5_INITS_H_

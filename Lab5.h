@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Kevin Nguyen and Patrick Rungruengwatanachai.
  * Header file for Lab 5. Defines registers including
- * timer, I2R, Accelerometer.
+ * PWM, UART, and Potentiometer.
  */
 #ifndef _LAB5_H_
 #define _LAB5_H_
@@ -77,9 +77,6 @@
 #define PWMENABLE (*((volatile uint32_t *)0x40028008))
 #define PWMCTL (*((volatile uint32_t *)0x40028000))
 
-//#define PWMCC (*((volatile uint32_t *)0x40028020))
-
-
 // All UART stuff below
 #define RCGCUART_R  (*((volatile uint32_t *)0x400FE618)) // UART peripheral clock control
 #define PRGPIO_R   (*((volatile uint32_t *)0x400FEA08)) // GPIO peripheral ready
@@ -91,15 +88,6 @@
 #define GPIO_PORTA_DEN_R   (*((volatile uint32_t *)0x4005851C)) // GPIO Digital Enable
 #define GPIO_PORTA_AMSEL_R  (*((volatile uint32_t *)0x40058528)) // GPIO Analog Mode Select
 
-// UART2 Registers
-#define UART2_DR_R   (*((volatile uint32_t *)0x4000E000)) // UART2 Data Register
-#define UART2_FR_R   (*((volatile uint32_t *)0x4000E018)) // UART2 Flag Register
-#define UART2_IBRD_R (*((volatile uint32_t *)0x4000E024)) // UART2 Integer Baud Rate Divisor
-#define UART2_FBRD_R (*((volatile uint32_t *)0x4000E028)) // UART2 Fractional Baud Rate Divisor
-#define UART2_LCRH_R (*((volatile uint32_t *)0x4000E02C)) // UART2 Line Control
-#define UART2_CTL_R  (*((volatile uint32_t *)0x4000E030)) // UART2 Control
-#define UART2_CC_R   (*((volatile uint32_t *)0x4000EFC8)) // UART2 Clock Configuration
-
 // UART Flags and Control
 #define UART_FR_RXFE     0x00000010 // Receive FIFO Empty
 #define UART_FR_TXFF     0x00000020 // Transmit FIFO Full
@@ -107,7 +95,6 @@
 #define UART_CTL_TXE     0x00000100 // Transmit Enable
 #define UART_CTL_RXE     0x00000004 // Receive Enable
 #define UART_LCRH_WLEN_8 0x00000060 // 8-bit word length
-
 
 // UART GPIO A ports
 #define GPIOAFSEL_A (*((volatile uint32_t *)0x40058420))

@@ -5,61 +5,10 @@
 
  #include "PLL_Header.h"
  #include "Lab5_Inits.h"
- 
- // STEP 0a: Include your header file here
- // YOUR CUSTOM HEADER FILE HERE
+
  #include "Lab5.h"
  
- int PLL_Init(enum frequency freq) {
-     // Do NOT modify this function.
-     MOSCCTL &= ~(0x4);                      // Power up MOSC
-     MOSCCTL &= ~(0x8);                      // Enable MOSC
-     while ((RIS & 0x100) == 0) {};          // Wait for MOSC to be ready
-     RSCLKCFG |= (0x3 << 20);                // Select MOSC as system clock source
-     RSCLKCFG |= (0x3 << 24);                // Select MOSC as PLL clock source
- 
-     PLLFREQ0 |= 0x60;                       // Set MINT field
-     PLLFREQ1 |= 0x4;                        // Set N field
- 
-     MEMTIM0 &= ~((0xF << 22) | (0xF << 6));     // Reset FBCHT and EBCHT
-     MEMTIM0 &= ~((0xF << 16) | (0xF << 0));     // Reset EWS and FWS
-     MEMTIM0 &= ~((0x1 << 21) | (0x1 << 5));     // Reset FBCE and EBCE
- 
-     RSCLKCFG &= ~(0x1 << 28);                   // Temporarilly bypass PLL
- 
-     switch (freq) {
-         case 120:
-             MEMTIM0 |= (0x6 << 22) | (0x6 << 6);    // Set FBCHT and EBCHT
-             MEMTIM0 |= (0x5 << 16) | (0x5 << 0);    // Set EWS and FWS
-             RSCLKCFG |= 0x3;                        // Set PSYSDIV to use 120 MHZ clock
-             RSCLKCFG &= ~0x3FC;                     // Update PSYSDIV field
-             break;
-         case 60:
-             MEMTIM0 |= (0x3 << 22) | (0x3 << 6);    // Set FBCHT and EBCHT
-             MEMTIM0 |= (0x2 << 16) | (0x2 << 0);    // Set EWS and FWS
-             RSCLKCFG |= 0x7;                        // Set PSYSDIV to use 60 MHZ clock
-             RSCLKCFG &= ~0x3F8;                     // Update PSYSDIV field
-             break;
-         case 12:
-             MEMTIM0 |= (0x1 << 21) | (0x1 << 5);    // Set FBCE and EBCE
-             RSCLKCFG |= 0x27;                       // Set PSYSDIV to use 12 MHZ clock
-             RSCLKCFG &= ~0x3D8;                     // Update PSYSDIV field
-             break;
-         default:
-             return -1;
-     }
- 
-     RSCLKCFG |= (0x1 << 30);                // Enable new PLL settings
-     PLLFREQ0 |= (0x1 << 23);                // Power up PLL
-     while ((PLLSTAT & 0x1) == 0) {};        // Wait for PLL to lock and stabilize
- 
-     RSCLKCFG |= (0x1u << 31) | (0x1 << 28);  // Use PLL and update Memory Timing Register
-     return 1;
- }
- 
  void LED_Init(void) {
-   // STEP 1: Initialize the 4 on board LEDs by initializing the corresponding
-   // GPIO pins.
    RCGCGPIO |= (1<<5) | (1<<12); // Enable clock for LEDs
    volatile unsigned short delay = 0;
    delay++, delay++; 
@@ -156,10 +105,8 @@ void PWM_Init(void) {
 }
 
 void PWM_Change_Duty(int cycle) {
-  if (cycle ==0) {
-    PWM0CTL = 0x00000000;
-    return;
-  }
+  PWM0CTL = 0x00000000; // Disable PWM0
+
   /*
   PWM0CMPA = 0x0000012B;  // set duty cycle for pin 1
   PWM0CMPB = 0x00000063;  // set duty cycle for pin 2
@@ -173,27 +120,6 @@ void PWM_Change_Duty(int cycle) {
   PWM0CMPA = cycle;  // Update duty cycle for pin 1
   PWM0CMPB = cycle;  // Update duty cycle for pin 1
   PWM0CTL = 0x00000001; // Enable PWM0
-}
-
-
-void UART2_Init(void) {
-    RCGCGPIO |= (1<<0); // Enable clock for Port A
-    while (!(PRGPIO_R & (1<<0))) {} // Wait for clock to stabilize
-
-    RCGCUART_R |= (1<<2); // Enable clock for UART2
-    while (!(PRUART_R & (1<<2))) {} // Wait for clock to stabilize
-
-    GPIO_PORTA_AMSEL_R &= ~((1<<0)|(1<<1)); // Disable analog function on PA6 and PA7
-    GPIO_PORTA_AFSEL_R |= (1<<0)|(1<<1); // Set PA6 and PA7 to alt function
-    GPIO_PORTA_PCTL_R |= (1 << 0) | (1 << 4); // Set PA6 and PA7 to UART mode
-    GPIO_PORTA_DEN_R |= (1<<0)|(1<<1); // Enable digital function on PA6 and PA7
-
-    UART2_CTL_R &= ~UART_CTL_UARTEN; // Disable UART2 to configure
-    UART2_IBRD_R = 104; // Set integer baud rate divisor 9600 baud rate
-    UART2_FBRD_R = 11; // Set fractional baud rate divisor
-    UART2_LCRH_R = 0x70; // Set line control register (8 data bits, no parity, 1 stop bit)
-    UART2_CC_R = 0x5; // Use system clock
-    UART2_CTL_R |= (UART_CTL_UARTEN | UART_CTL_TXE | UART_CTL_RXE); // Enable UART2, TXE, RXE
 }
 
 void UART_Init(void) {
