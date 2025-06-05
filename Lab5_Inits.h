@@ -20,6 +20,8 @@ void TimerADCTriger_Init(void);
 // Initialize PWM
 void PWM_Init(void);
 
+void PWM_Change_Duty(int cycle);
+
 // Initialize UART0
 void UART_Init(void);
 

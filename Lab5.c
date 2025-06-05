@@ -34,16 +34,16 @@ int main(void) {
       char c = (char)(UARTDR_A & 0xFF); // Read the character from UART2
       uint32_t duty = (UARTDR_A * PWM0LOAD) / 4095; // might need to tweak
       if (c == '0') {
-        PWM_Change_Duty(399); // off?
+        PWM_Change_Duty(398); // off?
       }
       else if (c == '1') {
-        PWM_Change_Duty(300); // low?
+        PWM_Change_Duty(300); // low
       }
       else if (c == '2') {
-        PWM_Change_Duty(150); // medium?
+        PWM_Change_Duty(150); // medium
       }
       else if (c == '3') {
-        PWM_Change_Duty(50); // high?
+        PWM_Change_Duty(30); // high
       }
       printf("%c\n", c);
       volatile unsigned short delay = 0;
