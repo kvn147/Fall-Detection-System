@@ -20,6 +20,9 @@ void TimerADCTriger_Init(void);
 // Initialize PWM
 void PWM_Init(void);
 
+// Changes the PWM duty cycle based on the value inputed by the user
+// takes in an int "cycle "which is the value that we will set 
+// the duty cycle to be
 void PWM_Change_Duty(int cycle);
 
 // Initialize UART0
