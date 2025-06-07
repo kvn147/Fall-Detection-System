@@ -37,7 +37,7 @@ void PWM_Init(void) {
   PWM0CTL = 0x00000000; // unlatch fault PWM
   PWM0GENA = 0x0000008C;  
   PWM0GENB = 0x0000080C;  
-  PWM0LOAD = 0x0000018F;  
+  PWM0LOAD = 0x00000140;
   PWM0CMPA = 0x0000012B;  // set duty cycle for pin 1
   PWM0CMPB = 0x00000063;  // set duty cycle for pin 2
   PWM0CTL = 0x00000001;
