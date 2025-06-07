@@ -19,16 +19,16 @@ int main(void) {
     while (!(UARTFR_A & UART_FR_RXFE)) {
       char c = (char)(UARTDR_A & 0xFF); // Read the character from UART2
       if (c == '0') {
-        PWM_Change_Duty(398); // Off
+        PWM_Change_Duty(398); // off
       }
       else if (c == '1') {
-        PWM_Change_Duty(240); // low
+        PWM_Change_Duty(300); // low
       }
       else if (c == '2') {
-        PWM_Change_Duty(60); // medium
+        PWM_Change_Duty(150); // medium
       }
       else if (c == '3') {
-        PWM_Change_Duty(0); // high
+        PWM_Change_Duty(30); // high
       }
     }
   }
